@@ -1,4 +1,4 @@
-# 山寨掘金第一天
+# 山寨掘金第二天
 
-![](screenshots/day1/complete.gif)
+![](screenshots/day2/search.gif)
 

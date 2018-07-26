@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'pages/index.dart';
-
+import 'pages/search.dart';
+import 'pages/activities.dart';
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
@@ -26,6 +27,10 @@ class MyApp extends StatelessWidget {
           primaryTextTheme: new TextTheme(
               //设置文本样式
               title: new TextStyle(color: Colors.black, fontSize: 16.0))),
+      routes: <String, WidgetBuilder>{
+        '/search': (BuildContext context) => SearchPage(),
+        '/activities': (BuildContext context) => ActivitiesPage(),
+      },
     );
   }
 }
