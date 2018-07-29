@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../utils/countTime.dart';
 import '../config/httpHeaders.dart';
+import '../widgets/carousel.dart';
 
 class DiscoveryPage extends StatefulWidget {
   @override
@@ -12,7 +13,13 @@ class DiscoveryPage extends StatefulWidget {
 }
 
 class DiscoveryPageState extends State<DiscoveryPage> {
+  List banner;
   List hotArticles;
+
+  Future getBanner() {
+    return http.get(Uri.encodeFull(
+        'https://banner-storage-ms.juejin.im/v1/web/aanner?position=hero&platform=web&page=0&pageSize=20&src=web'));
+  }
 
   Future getHotArticles() {
     return http.get(Uri.encodeFull(
@@ -22,6 +29,13 @@ class DiscoveryPageState extends State<DiscoveryPage> {
   @override
   void initState() {
     super.initState();
+    this.getBanner().then((response) {
+      setState(() {
+        banner = json.decode(response.body)['d']['banner'];
+      });
+    }, onError: (e) {
+      throw Exception('Failed to load banner');
+    });
     this.getHotArticles().then((response) {
       setState(() {
         hotArticles = json.decode(response.body)['d']['entrylist'];
@@ -60,11 +74,19 @@ class DiscoveryPageState extends State<DiscoveryPage> {
           titleSpacing: 5.0,
           backgroundColor: new Color.fromRGBO(244, 245, 245, 1.0),
         ),
+        new SliverFixedExtentList(
+            delegate: new SliverChildBuilderDelegate((context, index) {
+              print(banner);
+              return new Carousel(
+                itemList: banner,
+              );
+            }, childCount: banner == null ? 0 : 1),
+            itemExtent: 150.0),
         new SliverList(
             delegate: new SliverChildBuilderDelegate((context, index) {
           return new Container(
             color: Colors.white,
-            padding: new EdgeInsets.only(top: 15.0,bottom: 15.0),
+            padding: new EdgeInsets.only(top: 15.0, bottom: 15.0),
             margin: new EdgeInsets.only(bottom: 20.0),
             child: new Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

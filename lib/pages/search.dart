@@ -85,7 +85,7 @@ class SearchPageState extends State<SearchPage> {
                                 controller: controller,
                               ),
                             ),
-                            searchContent == ''
+                            searchContent == null
                                 ? new Container(
                                     height: 0.0,
                                     width: 0.0,
@@ -96,7 +96,7 @@ class SearchPageState extends State<SearchPage> {
                                     ),
                                     onTap: () {
                                       setState(() {
-                                        searchContent = '';
+                                        searchContent = null;
                                         controller.text = '';
                                       });
                                     })
